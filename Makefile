@@ -24,6 +24,6 @@ test: ## Run unit tests
 	@$(MAKE) build
 	@$(MAKE) -C build test
 
-dev: ## Starts app on Docker tty
+dev: ## Starts app on Docker tty (params: ALGORITHM, WORD)
 	@docker-compose -f docker-compose.yml build
-	@docker-compose -f docker-compose.yml run --rm --name c_template -- app $(PARAMS)
+	@docker-compose -f docker-compose.yml run --rm --name compaction -- app $(ALGORITHM) $(WORD)
