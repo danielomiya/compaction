@@ -1,8 +1,7 @@
-cmake_minimum_required(VERSION 3.1)
+cmake_minimum_required(VERSION 3.11)
 
-project(CTemplate
+project(Compaction
         VERSION 0.0.1
-        DESCRIPTION "Simple template for C applications with unit testing"
         LANGUAGES C CXX)
 
 set(CMAKE_CXX_EXTENSIONS OFF)

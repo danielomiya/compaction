@@ -5,7 +5,7 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(catch)
 
-file(GLOB TEST_SOURCES "${CTemplate_SOURCE_DIR}/tests/test_*.cpp")
+file(GLOB TEST_SOURCES "${Compaction_SOURCE_DIR}/tests/test_*.cpp")
 
 foreach(TEST ${TEST_SOURCES})
     # get filename without extension
@@ -18,7 +18,7 @@ foreach(TEST ${TEST_SOURCES})
     target_compile_features(${TEST_NAME} PRIVATE cxx_std_17)
 
     # links libraries so this executable can reference them
-    target_link_libraries(${TEST_NAME} PRIVATE c_template Catch2::Catch2)
+    target_link_libraries(${TEST_NAME} PRIVATE compaction Catch2::Catch2)
 
     # add test to be run by CTest
     add_test(NAME ${TEST_NAME}
