@@ -9,4 +9,10 @@ unsigned int str_eq(const char *a, const char *b);
 
 unsigned int str_ne(const char *a, const char *b);
 
+unsigned int is_number(char character);
+
+int scan_number(const char *word, int cursor, int *number);
+
+int scan_string(const char *word, int cursor, char *string);
+
 #endif // HELPERS_H

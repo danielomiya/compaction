@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "compaction/compaction.h"
+#include "compaction/helpers.h"
 
 #define BUFFER_SIZE 1024
 #define STRING_EMPTY ""
@@ -38,5 +39,27 @@ const char *prog2(const char *word) {
 }
 
 const char *desprog(const char *word) {
-    return STRING_EMPTY;
+    char buffer[BUFFER_SIZE], pattern[32], *result;
+    int cursor = 0, count, i;
+    unsigned int has_written = 0;
+
+    while (word[cursor] != NUL) {
+        cursor = scan_string(word, cursor, pattern);
+        cursor = scan_number(word, cursor, &count);
+
+        for (i = 0; i < count; i++) {
+            if (has_written) {
+                strcat(buffer, pattern);
+                continue;
+            }
+
+            strcpy(buffer, pattern);
+            has_written = 1;
+        }
+    }
+
+    result = malloc(sizeof(char)*(1+strlen(buffer)));
+    strcpy(result, buffer);
+
+    return result;
 }
