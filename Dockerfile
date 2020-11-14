@@ -19,4 +19,4 @@ FROM ubuntu:20.04
 WORKDIR /app
 COPY --from=build /src/build/app/main ./
 
-ENTRYPOINT ["sh", "-c", "./main"]
+ENTRYPOINT ["sh", "-c", "./main $@", "_"]
