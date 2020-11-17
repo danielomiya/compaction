@@ -40,25 +40,30 @@ unsigned int str_ne(const char *a, const char *b) {
 }
 
 unsigned int is_number(char character) {
-  return character >= '0' && character <= '9';
+    // given that a char in C is represented by ASCII codes
+    // if it's between 48 and 57 (inclusive), then it's a number
+    return character >= '0' && character <= '9';
 }
 
 int scan_number(const char *word, int cursor, int *number) {
     char buffer[BUFFER_SIZE];
     int i = 0;
 
+    // while we don't reach end of string
     for (; word[cursor] != NUL; cursor++) {
-        if (!is_number(word[cursor])) break;
-        buffer[i++] = word[cursor];
+        if (!is_number(word[cursor])) break; // and don't reach something non-number
+        buffer[i++] = word[cursor]; // keep throwing digits into buffer
     }
 
+    // if anything was read
     if (i > 0) {
         buffer[i++] = NUL;
-        *number = atoi(buffer);
+        *number = atoi(buffer); // parses it to int into *number
     } else {
-        *number = -1;
+        *number = -1; // otherwise populates *number with -1
     }
 
+    // return last position of cursor
     return cursor;
 }
 
@@ -66,16 +71,19 @@ int scan_string(const char *word, int cursor, char *string) {
     char buffer[BUFFER_SIZE];
     int i = 0;
 
+    // while we don't reach end of string
     for (; word[cursor] != NUL; cursor++) {
-        if (word[cursor] == '-') continue;
-        if (is_number(word[cursor])) break;
-        buffer[i++] = word[cursor];
+        if (is_number(word[cursor])) break; // and don't reach a number
+        if (word[cursor] == '-') continue; // ignore hyphens
+        buffer[i++] = word[cursor]; // keep throwing letters into buffer
     }
 
+    // if anything was read
     if (i > 0) {
         buffer[i++] = NUL;
-        strcpy(string, buffer);
+        strcpy(string, buffer); // copies it into *string
     }
 
+    // return last position of cursor
     return cursor;
 }
