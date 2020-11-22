@@ -17,7 +17,7 @@ clean: ## Clean previous build
 
 build: ## Build artifact
 	@mkdir -p build
-	@cd build && cmake .. -DBUILD_TESTING=OFF
+	@cd build && cmake ..
 	@$(MAKE) -C build
 
 test: ## Run unit tests
