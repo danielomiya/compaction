@@ -31,6 +31,26 @@ unsigned int str_eq(const char *a, const char *b);
 unsigned int str_ne(const char *a, const char *b);
 
 /**
+ * Compares sections of two different strings
+ * @param a first string to compare
+ * @param b second string to compare
+ * @param start_at_a position to start comparison at string a
+ * @param start_at_b position to start comparison at string b
+ * @param length how many chars to compare
+ * @returns 1 if the substrings are equal, otherwise 0
+ */
+unsigned int substr_eq(const char *a, const char *b, int start_at_a, int start_at_b, int length);
+
+/**
+ * @param value string to slice
+ * @param pos position to start slicing
+ * @param length n of chars to take
+ * @param pointer to output slice
+ * @returns n of read charaters
+ */
+int str_slice(const char* value, int pos, int length, char* target);
+
+/**
  * Verifies if a character is a number
  * @param character
  * @returns 1 if number, otherwise 0

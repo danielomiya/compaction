@@ -1,7 +1,7 @@
+#include "compaction/helpers.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "compaction/helpers.h"
 
 #ifndef BUFFER_SIZE
 #define BUFFER_SIZE 256
@@ -18,25 +18,51 @@ void print_usage(const char* executable_name) {
     printf("help: shows this message\n");
 }
 
-const char *not_found(const char *executable_name) {
-    const char *format = "Command not found, try using '%s help'";
+const char* not_found(const char* executable_name) {
+    const char* format = "Command not found, try using '%s help'";
 
     // -1 is because we subtract '%s' (-2) and add \0 (+1)
     int alloc_length = strlen(format) + strlen(executable_name) - 1;
 
-    char *result = malloc(sizeof(char)*alloc_length);
+    char* result = malloc(sizeof(char) * alloc_length);
 
     sprintf(result, format, executable_name);
 
     return result;
 }
 
-unsigned int str_eq(const char *a, const char *b) {
+unsigned int str_eq(const char* a, const char* b) {
     return strcmp(a, b) == 0;
 }
 
-unsigned int str_ne(const char *a, const char *b) {
+unsigned int str_ne(const char* a, const char* b) {
     return !str_eq(a, b);
+}
+
+unsigned int substr_eq(const char* a,
+                       const char* b,
+                       int start_at_a,
+                       int start_at_b,
+                       int length) {
+    if (a[start_at_a] == NUL && b[start_at_b] == NUL)
+        return 1;  // if both strings end at same time, true
+
+    if (a[start_at_a] == NUL || b[start_at_b] == NUL)
+        return 0;  // if only one of them ends, false
+
+    return a[start_at_a] == b[start_at_b] &&
+           (!(length > 1) ||
+            substr_eq(a, b, start_at_a + 1, start_at_b + 1, length - 1));
+}
+
+int str_slice(const char* value, int pos, int length, char* target) {
+    int i = 0;
+    while (i < length) {
+        target[i] = value[pos + i];
+        i += 1;
+    }
+    target[i++] = NUL;
+    return i;
 }
 
 unsigned int is_number(char character) {
@@ -45,43 +71,46 @@ unsigned int is_number(char character) {
     return character >= '0' && character <= '9';
 }
 
-int scan_number(const char *word, int cursor, int *number) {
+int scan_number(const char* word, int cursor, int* number) {
     char buffer[BUFFER_SIZE];
     int i = 0;
 
     // while we don't reach end of string
-    for (; word[cursor] != NUL; cursor++) {
-        if (!is_number(word[cursor])) break; // and don't reach something non-number
-        buffer[i++] = word[cursor]; // keep throwing digits into buffer
+    while (word[cursor] != NUL) {
+        if (!is_number(word[cursor]))
+            break;                     // and don't reach something non-number
+        buffer[i++] = word[cursor++];  // keep throwing digits into buffer
     }
 
     // if anything was read
-    if (i > 0) {
+    if (i) {
         buffer[i++] = NUL;
-        *number = atoi(buffer); // parses it to int into *number
+        *number = atoi(buffer);  // parses it to int into *number
     } else {
-        *number = -1; // otherwise populates *number with -1
+        *number = -1;  // otherwise populates *number with -1
     }
 
     // return last position of cursor
     return cursor;
 }
 
-int scan_string(const char *word, int cursor, char *string) {
+int scan_string(const char* word, int cursor, char* string) {
     char buffer[BUFFER_SIZE];
     int i = 0;
 
     // while we don't reach end of string
     for (; word[cursor] != NUL; cursor++) {
-        if (is_number(word[cursor])) break; // and don't reach a number
-        if (word[cursor] == '-') continue; // ignore hyphens
-        buffer[i++] = word[cursor]; // keep throwing letters into buffer
+        if (is_number(word[cursor]))
+            break;  // and don't reach a number
+        if (word[cursor] == '-')
+            continue;                // ignore hyphens
+        buffer[i++] = word[cursor];  // keep throwing letters into buffer
     }
 
     // if anything was read
-    if (i > 0) {
+    if (i) {
         buffer[i++] = NUL;
-        strcpy(string, buffer); // copies it into *string
+        strcpy(string, buffer);  // copies it into *string
     }
 
     // return last position of cursor
