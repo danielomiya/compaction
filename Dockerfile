@@ -11,7 +11,7 @@ FROM setup AS build
 
 WORKDIR /src
 COPY . ./
-RUN make build
+RUN mkdir -p build && cd build && cmake .. -DBUILD_TESTING=OFF && make
 
 #--- copy artifact from build and run it
 FROM ubuntu:20.04
