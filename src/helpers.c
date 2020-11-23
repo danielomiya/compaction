@@ -59,7 +59,7 @@ int str_slice(const char* value, int pos, int length, char* target) {
     int i = 0;
     while (i < length) {
         target[i] = value[pos + i];
-        i += 1;
+        i++;
     }
     target[i++] = NUL;
     return i;

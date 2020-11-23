@@ -6,14 +6,14 @@
  * @param word string to compact
  * @returns compacted word
  */
-const char *prog(const char *word);
+const char* prog(const char* word);
 
 /**
  * Compacts a string by grouping together repeated patterns
  * @param word string to compact
  * @returns compacted word
  */
-const char *prog2(const char *word);
+const char* prog2(const char* word);
 
 /**
  * Reverses the processing of functions prog and prog2
@@ -23,6 +23,6 @@ const char *prog2(const char *word);
  * @param word string to uncompact
  * @returns uncompacted word
  */
-const char *desprog(const char *word);
+const char* desprog(const char* word);
 
-#endif //COMPACTION_H
+#endif  // COMPACTION_H
