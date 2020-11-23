@@ -69,8 +69,14 @@ const char* prog2(const char* word) {
             end_pattern = -1;
         }
 
-        if (word[i] == NUL)
+        if (word[i] == NUL) {
+            if (end_pattern == -1 && word[start_pattern] != NUL) {
+                // when the last pattern doesn't repeat
+                str_slice(word, start_pattern, i - start_pattern, temp);
+                cursor += sprintf(cursor, "-%s%d", temp, 1);
+            }
             break;
+        }
 
         i++;
     }
