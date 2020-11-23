@@ -99,12 +99,10 @@ int scan_string(const char* word, int cursor, char* string) {
     int i = 0;
 
     // while we don't reach end of string
-    for (; word[cursor] != NUL; cursor++) {
-        if (is_number(word[cursor]))
-            break;  // and don't reach a number
-        if (word[cursor] == '-')
-            continue;                // ignore hyphens
-        buffer[i++] = word[cursor];  // keep throwing letters into buffer
+    while (word[cursor] != NUL && !is_number(word[cursor])) {
+        if (word[cursor] != '-')         // ignore hyphens
+            buffer[i++] = word[cursor];  // keep throwing letters into buffer
+        cursor++;
     }
 
     // if anything was read
